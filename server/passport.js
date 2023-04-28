@@ -1,45 +1,61 @@
-const GoogleStrategy = require('passport-google-oauth20').Strategy
-const mongoose = require('mongoose')
-const User = require('../models/User')
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GithubStrategy = require("passport-github2").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
+const passport = require("passport");
+require("dotenv").config();
 
-module.exports = function (passport) {
-  passport.use(
-    new GoogleStrategy(
-      {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: '/auth/google/callback',
-      },
-      async (accessToken, refreshToken, profile, done) => {
-        const newUser = {
-          googleId: profile.id,
-          displayName: profile.displayName,
-          firstName: profile.name.givenName,
-          lastName: profile.name.familyName,
-          image: profile.photos[0].value,
-        }
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 
-        try {
-          let user = await User.findOne({ googleId: profile.id })
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
 
-          if (user) {
-            done(null, user)
-          } else {
-            user = await User.create(newUser)
-            done(null, user)
-          }
-        } catch (err) {
-          console.error(err)
-        }
-      }
-    )
+GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID
+GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET
+
+FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID
+FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL: "/auth/google/callback",
+    },
+    function (accessToken, refreshToken, profile, done) {
+      done(null, profile);
+    }
   )
+);
 
-  passport.serializeUser((user, done) => {
-    done(null, user.id)
-  })
+passport.use(
+  new GithubStrategy(
+    {
+      clientID: GITHUB_CLIENT_ID,
+      clientSecret: GITHUB_CLIENT_SECRET,
+      callbackURL: "/auth/github/callback",
+    },
+    function (accessToken, refreshToken, profile, done) {
+      done(null, profile);
+    }
+  )
+);
 
-  passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => done(err, user))
-  })
-}
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: FACEBOOK_APP_ID,
+      clientSecret: FACEBOOK_APP_SECRET,
+      callbackURL: "/auth/facebook/callback",
+    },
+    function (accessToken, refreshToken, profile, done) {
+      done(null, profile);
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
