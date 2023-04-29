@@ -1,18 +1,22 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GithubStrategy = require("passport-github2").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
+const mongoose = require("mongoose");
+const GoogleUser = require("./models/GoogleUser");
+const GithubUser = require("./models/GithubUser");
 const passport = require("passport");
 require("dotenv").config();
 
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
-GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID
-GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET
+GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
-FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID
-FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET
+FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
+FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
+
 passport.use(
   new GoogleStrategy(
     {
@@ -22,6 +26,24 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
+      console.log(profile);
+      GoogleUser.findOne({ googleId: profile.id }).then((currentUser) => {
+        if (currentUser) {
+          // If User already created in DB
+
+          console.log(`user is: `, currentUser);
+        } else {
+          // if user not present then create new user in DB
+          new GoogleUser({
+            displayName: profile.displayName,
+            googleId: profile.id,
+          })
+            .save()
+            .then((newGoogleUser) => {
+              console.log(`New Google User Created` + newGoogleUser);
+            });
+        }
+      });
     }
   )
 );
@@ -35,6 +57,24 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
+      console.log(profile);
+      GithubUser.findOne({ githubId: profile.id }).then((currentUser) => {
+        if (currentUser) {
+          // If User already created in DB
+
+          console.log(`user is: `, currentUser);
+        } else {
+          // if user not present then create new user in DB
+          new GithubUser({
+            displayName: profile.displayName,
+            githubId: profile.id,
+          })
+            .save()
+            .then((newGithubUser) => {
+              console.log(`New Github User Created` + newGithubUser);
+            });
+        }
+      });
     }
   )
 );
@@ -48,6 +88,7 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
+      console.log(profile);
     }
   )
 );

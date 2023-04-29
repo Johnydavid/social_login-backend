@@ -1,33 +1,36 @@
-const addGoogleUser =
-  (User) =>
-  ({ id, email, firstName, lastName, image }) => {
-    const user = new User({
-      id,
-      email,
-      firstName,
-      lastName,
-      image,
-      source: "google",
-    });
-    return user.save();
-  };
+const router = require("express").Router();
+const { User, validate } = require("../models/User");
+const bcrypt = require("bcrypt");
 
-const getUsers = (User) => () => {
-  return User.find({});
-};
+router.post("/", async (req, res) => {
+  try {
+    const { error } = validate(req.body);
+    if (error)
+      return res.status(400).send({ message: error.details[0].message });
 
-const getUserByEmail =
-  (User) =>
-  async ({ email }) => {
-    return await User.findOne({
-      email,
-    });
-  };
+    const user = await User.findOne({ email: req.body.email });
 
-module.exports = (User) => {
-  return {
-    addGoogleUser: addGoogleUser(User),
-    getUsers: getUsers(User),
-    getUserByEmail: getUserByEmail(User),
-  };
-};
+    if (user)
+      return res.status(409).send({ message: "User Email already exists" });
+
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+
+    const hashPasword = await bcrypt.hash(req.body.password, salt);
+
+    await new User({ ...req.body, password: hashPasword }).save();
+    res.status(201).send({ message: "User Created Successfully" });
+  } catch (error) {
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+});
+
+// Read Operation
+// router.route("/read").get((req, res) => {
+//   User.find({}, { userName: 1, email: 1, _id: 0 })
+//     .then((name) => res.json(name))
+//     .catch((err) => {
+//       res.status(400).json("Error : " + err);
+//     });
+// });
+
+module.exports = router;

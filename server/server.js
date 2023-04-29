@@ -3,12 +3,17 @@ const express = require("express");
 const cors = require("cors");
 const passportSetup = require("./passport");
 const passport = require("passport");
-const authRoute = require("./routes/auth.js");
+const connection = require("./db");
+
+const loginRoutes = require("./routes/login")
+const authRoutes = require("./routes/auth.js")
+const userRoutes = require("./routes/user.js");
+
 const app = express();
 require("dotenv").config();
 
 app.use(
-  cookieSession({ name: "session", keys: ["lama"], maxAge: 24 * 60 * 60 * 100 })
+  cookieSession({ name: "session", keys: ["guvi"], maxAge: 24 * 60 * 60 * 100 })
 );
 
 app.use(passport.initialize());
@@ -22,9 +27,18 @@ app.use(
   })
 );
 
-app.use("/auth", authRoute);
+app.use("/auth", authRoutes);
 const port = Number(process.env.PORT)
 
 app.listen(port, () => {
   console.log(`Server is running at ${port}`);
 });
+
+// Database Connection
+connection();
+
+// Routes
+
+app.use("/", loginRoutes )
+app.use("/auth", authRoutes )
+app.use("/api/users", userRoutes);
