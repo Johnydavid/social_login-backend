@@ -4,7 +4,7 @@ const router = express.Router()
 // Login Page
 // GET
 
-router.get('/', (req, res)=>{
+router.get('/auth', (req, res)=>{
 
     res.send('Login')
 

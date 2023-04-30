@@ -5,11 +5,13 @@ const passportSetup = require("./passport");
 const passport = require("passport");
 const connection = require("./db");
 
-const loginRoutes = require("./routes/login")
-const authRoutes = require("./routes/auth.js")
-const userRoutes = require("./routes/user.js");
+const loginRoutes = require("./routes/login");
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
+
 
 const app = express();
+app.use(express.json());
 require("dotenv").config();
 
 app.use(
@@ -27,8 +29,18 @@ app.use(
   })
 );
 
-app.use("/auth", authRoutes);
-const port = Number(process.env.PORT)
+
+app.use(express.urlencoded({ extended: false }));
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+const port = Number(process.env.PORT) ;
 
 app.listen(port, () => {
   console.log(`Server is running at ${port}`);
@@ -39,6 +51,9 @@ connection();
 
 // Routes
 
-app.use("/", loginRoutes )
-app.use("/auth", authRoutes )
-app.use("/api/users", userRoutes);
+app.use("/", loginRoutes);
+app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes)
+
+

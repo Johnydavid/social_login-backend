@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User, validate } = require("../models/User");
+const { User, validate } = require("../models/user");
 const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res) => {
@@ -25,12 +25,12 @@ router.post("/", async (req, res) => {
 });
 
 // Read Operation
-// router.route("/read").get((req, res) => {
-//   User.find({}, { userName: 1, email: 1, _id: 0 })
-//     .then((name) => res.json(name))
-//     .catch((err) => {
-//       res.status(400).json("Error : " + err);
-//     });
-// });
+router.route("/read").get((req, res) => {
+  User.find({}, { userName: 1, email: 1, _id: 0 })
+    .then((name) => res.json(name))
+    .catch((err) => {
+      res.status(400).json("Error : " + err);
+    });
+});
 
 module.exports = router;
