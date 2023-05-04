@@ -1,17 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const GoogleUserSchema = new Schema({
+const FacebookUserSchema = new Schema({
   displayName: {
     type: String,
     required: true,
   },
 
-  googleId: {
-    type: String,
-    required: true,
-  },
-  image: {
+  facebookId: {
     type: String,
     required: true,
   },
@@ -21,6 +17,6 @@ const GoogleUserSchema = new Schema({
   },
 });
 
-const GoogleUser = mongoose.model("GoogleUser", GoogleUserSchema);
+const FacebookUser = mongoose.model("FacebookUser", FacebookUserSchema);
 
-module.exports = GoogleUser;
+module.exports = FacebookUser;

@@ -1,7 +1,7 @@
 const { Db } = require("mongodb");
 const mongoose = require("mongoose");
 
-const connectDB = () => {
+module.exports = () => {
   try {
 
     const uri = process.env.ATLAS_URI;
@@ -10,8 +10,5 @@ const connectDB = () => {
   } catch (error) {
     console.log(error);
     console.log("Connection Failed");
-    process.exit(1)
   }
 };
-
-module.exports = connectDB

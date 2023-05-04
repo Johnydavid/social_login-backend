@@ -1,9 +1,9 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GithubStrategy = require("passport-github2").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
-const mongoose = require("mongoose");
 const GoogleUser = require("./models/GoogleUser");
 const GithubUser = require("./models/GithubUser");
+const FacebookUser = require("./models/FacebookUser");
 const passport = require("passport");
 require("dotenv").config();
 
@@ -15,8 +15,6 @@ GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
 FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
-
-
 
 passport.use(
   new GoogleStrategy(

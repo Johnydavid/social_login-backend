@@ -4,13 +4,11 @@ const cors = require("cors");
 const passportSetup = require("./passport");
 const passport = require("passport");
 const connection = require("./db");
-
-const loginRoutes = require("./routes/login");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/user");
-
-
 const app = express();
+
 app.use(express.json());
 require("dotenv").config();
 
@@ -20,6 +18,15 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cookieParser("secretcode"));
+
+app.use(
+  session({
+    secret: "secretcode",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 app.use(
   cors({
@@ -29,8 +36,7 @@ app.use(
   })
 );
 
-
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header(
@@ -40,7 +46,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-const port = Number(process.env.PORT) ;
+const port = Number(process.env.PORT);
 
 app.listen(port, () => {
   console.log(`Server is running at ${port}`);
@@ -51,9 +57,4 @@ connection();
 
 // Routes
 
-app.use("/", loginRoutes);
 app.use("/auth", authRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes)
-
-
