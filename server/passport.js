@@ -84,7 +84,7 @@ passport.use(
     {
       clientID: FACEBOOK_APP_ID,
       clientSecret: FACEBOOK_APP_SECRET,
-      callbackURL: "https://guvi-socialmedia.netlify.app/auth/facebook/callback",
+      callbackURL: "https://social-media-login.onrender.com/auth/facebook/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
