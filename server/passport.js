@@ -21,7 +21,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "https://guvi-socialmedia.netlify.app/auth/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
@@ -53,7 +53,7 @@ passport.use(
     {
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: "/auth/github/callback",
+      callbackURL: "https://social-media-login.onrender.com/auth/github/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
@@ -84,7 +84,7 @@ passport.use(
     {
       clientID: FACEBOOK_APP_ID,
       clientSecret: FACEBOOK_APP_SECRET,
-      callbackURL: "/auth/facebook/callback",
+      callbackURL: "https://guvi-socialmedia.netlify.app/auth/facebook/callback",
     },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
