@@ -4,9 +4,10 @@ const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const bodyParser = require("body-parser");
+const GithubUser = require("../models/GithubUser");
 
 // const CLIENT_URL = "http://localhost:3000/";
-const CLIENT_URL = "https://guvi-socialmedia.netlify.app/";
+const CLIENT_URL = "https://guvi-socialmedia.netlify.app";
 
 
 router.get("/login/success", (req, res) => {
@@ -50,6 +51,14 @@ router.get(
     failureRedirect: "/login/failed",
   })
 );
+
+router.route("/github/read").get((req, res) => {
+  GithubUser.find()
+    .then((user) => res.json(user))
+    .catch((err) => {
+      res.status(400).json("Error : " + err);
+    });
+});
 
 router.get(
   "/facebook",

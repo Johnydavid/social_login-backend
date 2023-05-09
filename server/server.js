@@ -31,7 +31,7 @@ app.use(passport.session());
 app.use(
   cors({
     // origin: "*",
-    origin: "https://guvi-socialmedia.netlify.app/",
+    origin: "http://localhost:3000/",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })

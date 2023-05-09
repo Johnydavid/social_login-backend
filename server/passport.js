@@ -6,6 +6,7 @@ const GithubUser = require("./models/GithubUser");
 const FacebookUser = require("./models/FacebookUser");
 const passport = require("passport");
 require("dotenv").config();
+require('https').globalAgent.options.rejectUnauthorized = false;
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -55,7 +56,7 @@ passport.use(
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
       // callbackURL: "https://social-media-login.onrender.com/auth/github/callback",
-      callbackURL: "http://localhost:8080/auth/github/callback"
+      callbackURL: "/auth/github/callback"
       // callbackURL: "https://guvi-socialmedia.netlify.app/auth/github/callback",
     },
     function (accessToken, refreshToken, profile, done) {
