@@ -54,8 +54,8 @@ passport.use(
     {
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: "https://social-media-login.onrender.com/auth/github/callback",
-      // callbackURL: "http://localhost:8080/auth/github/callback"
+      // callbackURL: "https://social-media-login.onrender.com/auth/github/callback",
+      callbackURL: "http://localhost:8080/auth/github/callback"
       // callbackURL: "https://guvi-socialmedia.netlify.app/auth/github/callback",
     },
     function (accessToken, refreshToken, profile, done) {
