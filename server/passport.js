@@ -86,8 +86,8 @@ passport.use(
     {
       clientID: FACEBOOK_APP_ID,
       clientSecret: FACEBOOK_APP_SECRET,
-      // callbackURL: "https://social-media-login.onrender.com/auth/facebook/callback",
-      callbackURL: "http://localhost:8080/auth/facebook/callback"
+      callbackURL: "https://social-media-login.onrender.com/auth/facebook/callback",
+      // callbackURL: "http://localhost:8080/auth/facebook/callback"
     },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
