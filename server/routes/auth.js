@@ -16,7 +16,9 @@ router.get("/login/success", (req, res) => {
       success: true,
       message: "successfull",      
       user: req.user,
+    
     });
+    console.log(user);
   }
 });
 
@@ -73,17 +75,6 @@ router.get(
   })
 );
 
-router.get(
-  "/facebook",
-  passport.authenticate("facebook", { scope: ["profile"] })
-);
 
-router.get(
-  "/facebook/callback",
-  passport.authenticate("facebook", {
-    successRedirect: CLIENT_URL,
-    failureRedirect: "/login/failed",
-  })
-);
 
 module.exports = router;
