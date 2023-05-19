@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const GithubUser = require("../models/GithubUser");
 
 // const CLIENT_URL = "http://localhost:3000/";
-const CLIENT_URL = "https://guvi-socialmedia.netlify.app/";
+const CLIENT_URL = "https://guvi-socialmedia.netlify.app";
 
 
 router.get("/login/success", (req, res) => {
