@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const GithubUser = require("../models/GithubUser");
 
 // const CLIENT_URL = "http://localhost:3000/";
-const CLIENT_URL = "https://guvi-socialmedia.netlify.app";
+const CLIENT_URL = process.env.CLIENT_URL;
 
 
 router.get("/login/success", (req, res) => {
@@ -16,6 +16,7 @@ router.get("/login/success", (req, res) => {
       success: true,
       message: "successfull",      
       user: req.user,
+      eror:false,
     
     });
    
@@ -26,6 +27,7 @@ router.get("/login/success", (req, res) => {
 
 router.get("/login/failed", (req, res) => {
   res.status(401).json({
+    error:true,
     success: false,
     message: "failure",
   });
@@ -36,7 +38,7 @@ router.get("/logout", (req, res) => {
   res.redirect(CLIENT_URL);
 });
 
-router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 router.get(
   "/google/callback",
