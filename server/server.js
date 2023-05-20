@@ -3,8 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const passportSetup = require("./passport");
 const passport = require("passport");
-const connection = require("./db");
-const cookieParser = require("cookie-parser");
+// const connection = require("./db");
+
 const session = require("express-session");
 const authRoutes = require("./routes/auth");
 const app = express();
@@ -18,36 +18,30 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cookieParser("secretcode"));
 
-app.use(
-  session({
-    secret: "secretcode",
-    resave: true,
-    saveUninitialized: true,
-  })
-);
+
+
 
 app.use(
   cors({
     // origin: "*",
     // origin: "http://localhost:3000/",
-    origin: "https://guvi-socialmedia.netlify.app",
+    origin: "http://guvi-socialmedia.netlify.app/",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
 );
 
-// app.use(express.urlencoded({ extended: true }));
-// app.use(function (req, res, next) {
-//   // res.header("Access-Control-Allow-Origin", "https://guvi-socialmedia.netlify.app/" );
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
+app.use(express.urlencoded({ extended: true }));
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://guvi-socialmedia.netlify.app/" );
+  // res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 const port = Number(process.env.PORT);
 
@@ -56,7 +50,7 @@ app.listen(port, () => {
 });
 
 // Database Connection
-connection();
+// connection();
 
 // Routes
 
