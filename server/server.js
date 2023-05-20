@@ -4,7 +4,7 @@ const cors = require("cors");
 const passportSetup = require("./passport");
 const passport = require("passport");
 const connection = require("./db");
-// const cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const authRoutes = require("./routes/auth");
 const app = express();
@@ -18,15 +18,15 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(cookieParser("secretcode"));
+app.use(cookieParser("secretcode"));
 
-// app.use(
-//   session({
-//     secret: "secretcode",
-//     resave: true,
-//     saveUninitialized: true,
-//   })
-// );
+app.use(
+  session({
+    secret: "secretcode",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 app.use(
   cors({
