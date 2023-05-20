@@ -1,12 +1,13 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GithubStrategy = require("passport-github2").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
-const GoogleUser = require("./models/GoogleUser");
-const GithubUser = require("./models/GithubUser");
+const User = require("./models/User");
+// const GoogleUser = require("./models/GoogleUser");
+// const GithubUser = require("./models/GithubUser");
 const FacebookUser = require("./models/FacebookUser");
 const passport = require("passport");
 require("dotenv").config();
-require('https').globalAgent.options.rejectUnauthorized = false;
+// require('https').globalAgent.options.rejectUnauthorized = false;
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -28,21 +29,21 @@ passport.use(
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
       console.log(profile);
-      GoogleUser.findOne({ googleId: profile.id }).then((currentUser) => {
+      User.findOne({ id: profile.id }).then((currentUser) => {
         if (currentUser) {
           // If User already created in DB
 
           console.log(`user is: `, currentUser);
         } else {
           // if user not present then create new user in DB
-          new GoogleUser({
+          new User({
             displayName: profile.displayName,
-            googleId: profile.id,
-            image: profile.photos[0].value,
+            id: profile.id,
+            // image: profile.photos[0].value,
           })
             .save()
-            .then((newGoogleUser) => {
-              console.log(`New Google User Created` + newGoogleUser);
+            .then((newUser) => {
+              console.log(`New Google User Created` + newUser);
             });
         }
       });
@@ -62,20 +63,20 @@ passport.use(
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
       console.log(profile);
-      GithubUser.findOne({ githubId: profile.id }).then((currentUser) => {
+      User.findOne({ id: profile.id }).then((currentUser) => {
         if (currentUser) {
           // If User already created in DB
 
           console.log(`user is: `, currentUser);
         } else {
           // if user not present then create new user in DB
-          new GithubUser({
+          new User({
             displayName: profile.displayName,
-            githubId: profile.id,
+            id: profile.id,
           })
             .save()
-            .then((newGithubUser) => {
-              console.log(`New Github User Created` + newGithubUser);
+            .then((newUser) => {
+              console.log(`New Github User Created` + newUser);
             });
         }
       });

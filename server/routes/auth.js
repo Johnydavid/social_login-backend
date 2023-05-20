@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const GithubUser = require("../models/GithubUser");
+const User = require("../models/User")
 
 // const CLIENT_URL = "http://localhost:3000/";
 const CLIENT_URL = process.env.CLIENT_URL;
@@ -58,8 +59,8 @@ router.get(
   })
 );
 
-router.route("/github/read").get((req, res) => {
-  GithubUser.find()
+router.route("/user/read").get((req, res) => {
+  User.find()
     .then((user) => res.json(user))
     .catch((err) => {
       res.status(400).json("Error : " + err);
