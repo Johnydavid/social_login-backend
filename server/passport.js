@@ -3,6 +3,7 @@ const GithubStrategy = require("passport-github2").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const passport = require("passport");
 const User = require("./models/User");
+const router = require("express").Router();
 require('dotenv').config()
 require('https').globalAgent.options.rejectUnauthorized = false;
 
@@ -105,6 +106,16 @@ passport.use(
     }
   )
 );
+
+
+// Read Operation
+router.route("/read").get((req, res) => {
+  User.find()
+    .then((users) => res.json(users))
+    .catch((err) => {
+      res.status(400).json("Error : " + err);
+    });
+});
 
 passport.serializeUser((user, done) => {
   done(null, user);
