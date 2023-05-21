@@ -2,7 +2,9 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GithubStrategy = require("passport-github2").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const passport = require("passport");
+const User = require("./models/User");
 require('dotenv').config()
+require('https').globalAgent.options.rejectUnauthorized = false;
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -19,9 +21,28 @@ passport.use(
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/callback",
-    },
+         },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
+      console.log(profile);
+      // User.findOne({ id: profile.id }).then((currentUser) => {
+      //   if (currentUser) {
+      //     // If User already created in DB
+
+      //     console.log(`user is: `, currentUser);
+      //   } else {
+      //     // if user not present then create new user in DB
+      //     new User({
+      //       displayName: profile.displayName,
+      //       id: profile.id,
+      //       // image: profile.photos[0].value,
+      //     })
+      //       .save()
+      //       .then((newUser) => {
+      //         console.log(`New Google User Created` + newUser);
+      //       });
+      //   }
+      // });
     }
   )
 );
@@ -38,6 +59,39 @@ passport.use(
     }
   )
 );
+
+
+// passport.use(
+//   new GithubStrategy(
+//     {
+//       clientID: GITHUB_CLIENT_ID,
+//       clientSecret: GITHUB_CLIENT_SECRET,   
+//       callbackURL: "/auth/github/callback",  
+//     },
+//     function (accessToken, refreshToken, profile, done) {
+//       done(null, profile);
+//       console.log(profile);
+//       console.log(accessToken);
+//       User.findOne({ id: profile.id }).then((currentUser) => {
+//         if (currentUser) {
+//           // If User already created in DB
+
+//           console.log(`user is: `, currentUser);
+//         } else {
+//           // if user not present then create new user in DB
+//           new User({
+//             displayName: profile.displayName,
+//             id: profile.id,
+//           })
+//             .save()
+//             .then((newUser) => {
+//               console.log(`New Github User Created` + newUser);
+//             });
+//         }
+//       });
+//     }
+//   )
+// );
 
 passport.use(
   new FacebookStrategy(
