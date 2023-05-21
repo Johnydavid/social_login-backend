@@ -19,14 +19,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
-
 app.use(
   cors({
     // origin: "*",
-    origin: "http://localhost:3000/",
-    // origin: "https://guvi-socialmedia.netlify.app/",
+    // origin: "http://localhost:3000/",
+    origin: "https://guvi-socialmedia.netlify.app/",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
@@ -34,14 +31,16 @@ app.use(
 
 app.use(express.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000/" );
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://guvi-socialmedia.netlify.app/"
+  );
   // res.header("Access-Control-Allow-Origin", "*");
   changeOrigin: true,
-   
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
   next();
 });
 
