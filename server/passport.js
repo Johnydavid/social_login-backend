@@ -78,6 +78,7 @@ passport.use(
           // If User already created in DB
 
           console.log(`user is: `, currentUser);
+          console.log(currentUser.displayName);
         } else {
           // if user not present then create new user in DB
           new User({
@@ -110,7 +111,7 @@ passport.use(
 
 // Read Operation
 router.route("/read").get((req, res) => {
-  users.find()
+  User.find()
     .then((users) => res.json(users))
     .catch((err) => {
       res.status(400).json("Error : " + err);
