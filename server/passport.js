@@ -110,7 +110,7 @@ passport.use(
 
 // Read Operation
 router.route("/read").get((req, res) => {
-  User.find()
+  users.find()
     .then((users) => res.json(users))
     .catch((err) => {
       res.status(400).json("Error : " + err);
