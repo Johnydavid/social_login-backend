@@ -24,7 +24,7 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(CLIENT_URL);
+  res.redirect("https://guvi-socialmedia.netlify.app/");
 });
 
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));

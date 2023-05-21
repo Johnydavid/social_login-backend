@@ -25,73 +25,73 @@ passport.use(
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
       console.log(profile);
-      // User.findOne({ id: profile.id }).then((currentUser) => {
-      //   if (currentUser) {
-      //     // If User already created in DB
+      User.findOne({ id: profile.id }).then((currentUser) => {
+        if (currentUser) {
+          // If User already created in DB
 
-      //     console.log(`user is: `, currentUser);
-      //   } else {
-      //     // if user not present then create new user in DB
-      //     new User({
-      //       displayName: profile.displayName,
-      //       id: profile.id,
-      //       // image: profile.photos[0].value,
-      //     })
-      //       .save()
-      //       .then((newUser) => {
-      //         console.log(`New Google User Created` + newUser);
-      //       });
-      //   }
-      // });
+          console.log(`user is: `, currentUser);
+        } else {
+          // if user not present then create new user in DB
+          new User({
+            displayName: profile.displayName,
+            id: profile.id,
+            // image: profile.photos[0].value,
+          })
+            .save()
+            .then((newUser) => {
+              console.log(`New Google User Created` + newUser);
+            });
+        }
+      });
     }
   )
 );
-
-passport.use(
-  new GithubStrategy(
-    {
-      clientID: GITHUB_CLIENT_ID,
-      clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: "/auth/github/callback",
-    },
-    function (accessToken, refreshToken, profile, done) {
-      done(null, profile);
-    }
-  )
-);
-
 
 // passport.use(
 //   new GithubStrategy(
 //     {
 //       clientID: GITHUB_CLIENT_ID,
-//       clientSecret: GITHUB_CLIENT_SECRET,   
-//       callbackURL: "/auth/github/callback",  
+//       clientSecret: GITHUB_CLIENT_SECRET,
+//       callbackURL: "/auth/github/callback",
 //     },
 //     function (accessToken, refreshToken, profile, done) {
 //       done(null, profile);
-//       console.log(profile);
-//       console.log(accessToken);
-//       User.findOne({ id: profile.id }).then((currentUser) => {
-//         if (currentUser) {
-//           // If User already created in DB
-
-//           console.log(`user is: `, currentUser);
-//         } else {
-//           // if user not present then create new user in DB
-//           new User({
-//             displayName: profile.displayName,
-//             id: profile.id,
-//           })
-//             .save()
-//             .then((newUser) => {
-//               console.log(`New Github User Created` + newUser);
-//             });
-//         }
-//       });
 //     }
 //   )
 // );
+
+
+passport.use(
+  new GithubStrategy(
+    {
+      clientID: GITHUB_CLIENT_ID,
+      clientSecret: GITHUB_CLIENT_SECRET,   
+      callbackURL: "/auth/github/callback",  
+    },
+    function (accessToken, refreshToken, profile, done) {
+      done(null, profile);
+      console.log(profile);
+      console.log(accessToken);
+      User.findOne({ id: profile.id }).then((currentUser) => {
+        if (currentUser) {
+          // If User already created in DB
+
+          console.log(`user is: `, currentUser);
+        } else {
+          // if user not present then create new user in DB
+          new User({
+            displayName: profile.displayName,
+            id: profile.id,
+          })
+            .save()
+            .then((newUser) => {
+              console.log(`New Github User Created` + newUser);
+            });
+        }
+      });
+    }
+  )
+);
 
 passport.use(
   new FacebookStrategy(
