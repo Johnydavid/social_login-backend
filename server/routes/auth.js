@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const passport = require("passport");
 
-// const CLIENT_URL = "http://localhost:3000/";
-const CLIENT_URL = "https://guvi-socialmedia.netlify.app/";
+const CLIENT_URL = "http://localhost:3000/";
+// const CLIENT_URL = "https://guvi-socialmedia.netlify.app/";
 
 router.get("/login/success", (req, res) => {
   if (req.user) {
@@ -24,10 +24,11 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect("https://guvi-socialmedia.netlify.app/");
+  res.redirect(CLIENT_URL);
 });
 
-router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
+router.get("/google",  passport.authenticate("google", { scope: ["profile"] }) );
+
 
 router.get(
   "/google/callback",

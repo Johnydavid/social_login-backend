@@ -1,23 +1,23 @@
-// const cookieSession = require("cookie-session");
+const cookieSession = require("cookie-session");
 const express = require("express");
 const cors = require("cors");
 const passportSetup = require("./passport");
 const passport = require("passport");
 const connection = require("./db");
 
-// const session = require("express-session");
+const session = require("express-session");
 const authRoutes = require("./routes/auth");
 const app = express();
 
 app.use(express.json());
 require("dotenv").config();
 
-// app.use(
-//   cookieSession({ name: "session", keys: ["guvi"], maxAge: 24 * 60 * 60 * 100 })
-// );
+app.use(
+  cookieSession({ name: "session", keys: ["guvi"], maxAge: 24 * 60 * 60 * 100 })
+);
 
 app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.session());
 
 
 
@@ -25,8 +25,8 @@ app.use(passport.initialize());
 app.use(
   cors({
     // origin: "*",
-    // origin: "http://localhost:3000/",
-    origin: "https://guvi-socialmedia.netlify.app/",
+    origin: "http://localhost:3000/",
+    // origin: "https://guvi-socialmedia.netlify.app/",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
@@ -34,7 +34,7 @@ app.use(
 
 app.use(express.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://guvi-socialmedia.netlify.app/" );
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000/" );
   // res.header("Access-Control-Allow-Origin", "*");
   changeOrigin: true,
    
