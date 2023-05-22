@@ -2,8 +2,8 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GithubStrategy = require("passport-github2").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const User = require("./models/User");
-// const GoogleUser = require("./models/GoogleUser");
-// const GithubUser = require("./models/GithubUser");
+const GoogleUser = require("./models/GoogleUser");
+const GithubUser = require("./models/GithubUser");
 const FacebookUser = require("./models/FacebookUser");
 const passport = require("passport");
 require("dotenv").config();
@@ -28,14 +28,14 @@ passport.use(
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
       console.log(profile);
-      User.findOne({ id: profile.id }).then((currentUser) => {
+      GoogleUser.findOne({ id: profile.id }).then((currentUser) => {
         if (currentUser) {
           // If User already created in DB
 
           console.log(`user is: `, currentUser);
         } else {
           // if user not present then create new user in DB
-          new User({
+          new GoogleUser({
             displayName: profile.displayName,
             id: profile.id,
             // image: profile.photos[0].value,
@@ -60,14 +60,14 @@ passport.use(
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
       console.log(profile);
-      User.findOne({ id: profile.id }).then((currentUser) => {
+      GithubUser.findOne({ id: profile.id }).then((currentUser) => {
         if (currentUser) {
           // If User already created in DB
 
           console.log(`user is: `, currentUser);
         } else {
           // if user not present then create new user in DB
-          new User({
+          new GithubUser({
             displayName: profile.displayName,
             id: profile.id,
           })
