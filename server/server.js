@@ -31,12 +31,12 @@ app.use(
 
 app.use(express.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://guvi-socialmedia.netlify.app/"
-  );
-  // res.header("Access-Control-Allow-Origin", "*");
-  changeOrigin: true,
+  // res.header(
+  //   "Access-Control-Allow-Origin",
+  //   "https://guvi-socialmedia.netlify.app/"
+  // );
+  res.header("Access-Control-Allow-Origin", "*");
+  // changeOrigin: true,
     res.header(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept"
