@@ -5,7 +5,7 @@ const passportSetup = require("./passport");
 const passport = require("passport");
 const connection = require("./db");
 
-// const session = require("express-session");
+const session = require("express-session");
 const authRoutes = require("./routes/auth");
 const app = express();
 
@@ -17,7 +17,7 @@ require("dotenv").config();
 // );
 
 app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.session());
 
 app.use(
   cors({
